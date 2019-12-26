@@ -1,6 +1,5 @@
 import $ from 'jquery';
 import Formula from "../../../../../lib/js/src/Formula";
-import Router from "../../../../../lib/js/src/Router";
 
 (function () {
     if (!Keestash.Security) {
@@ -11,16 +10,6 @@ import Router from "../../../../../lib/js/src/Router";
         init: function () {
             let formula = new Formula();
 
-            Keestash.Main.setAppNavigationItemClickListener(
-                function (id) {
-                    id = parseInt(id);
-                    let router = new Router();
-                    if (id === 1)
-                        router.routeTo("/account")
-                    else if (id === 2)
-                        router.routeTo("/security")
-                }
-            );
 
             $("#tl__security__password__form").submit(function (e) {
                 e.preventDefault();

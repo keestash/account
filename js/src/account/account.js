@@ -1,7 +1,6 @@
 import $ from 'jquery';
 import Formula from "../../../../../lib/js/src/Formula";
 import modal from "../../../../../lib/js/src/UI/modal";
-import Router from "../../../../../lib/js/src/Router";
 
 (function () {
     if (!Keestash.Account) {
@@ -11,18 +10,6 @@ import Router from "../../../../../lib/js/src/Router";
     Keestash.Account = {
         init: function () {
             let formula = new Formula();
-
-            Keestash.Main.setAppNavigationItemClickListener(
-                function (id) {
-                    id = parseInt(id);
-                    let router = new Router();
-                    if (id === 1)
-                        router.routeTo("/account");
-                    else if (id === 2)
-                        router.routeTo("/security");
-                }
-            );
-
 
             $("#tl__pi__picture").click(function (e) {
                 e.stopImmediatePropagation();
