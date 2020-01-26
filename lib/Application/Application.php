@@ -22,12 +22,12 @@ declare(strict_types=1);
 namespace KSA\Account\Application;
 
 use Keestash;
-use Keestash\Core\Manager\RouterManager\RouterManager;
 use KSA\Account\Api\DeleteProfileImage;
 use KSA\Account\Api\UpdatePassword;
 use KSA\Account\Api\UpdateProfileImage;
 use KSA\Account\Api\UpdateUserData;
 use KSA\Account\Controller\PersonalInformation\Controller;
+use KSP\Core\Manager\RouterManager\IRouterManager;
 
 class Application extends Keestash\App\Application {
 
@@ -71,31 +71,31 @@ class Application extends Keestash\App\Application {
         parent::registerApiRoute(
             self::ACCOUNT_SINGLE
             , Controller::class
-            , [RouterManager::GET]
+            , [IRouterManager::GET]
         );
 
         parent::registerApiRoute(
             self::ACCOUNT_PROFILE_UPDATE
             , UpdateUserData::class
-            , [RouterManager::POST]
+            , [IRouterManager::POST]
         );
 
         parent::registerApiRoute(
             self::ACCOUNT_PROFILE_IMAGE_UPDATE
             , UpdateProfileImage::class
-            , [RouterManager::POST]
+            , [IRouterManager::POST]
         );
 
         parent::registerApiRoute(
             self::ACCOUNT_PROFILE_IMAGE_DELETE
             , DeleteProfileImage::class
-            , [RouterManager::POST]
+            , [IRouterManager::POST]
         );
 
         parent::registerApiRoute(
             self::SECURITY_PASSWORD_UPDATE
             , UpdatePassword::class
-            , [RouterManager::POST]
+            , [IRouterManager::POST]
         );
 
         parent::addJavascript(self::ACCOUNT);
