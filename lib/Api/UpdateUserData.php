@@ -21,6 +21,7 @@ declare(strict_types=1);
 
 namespace KSA\Account\Api;
 
+use doganoo\SimpleRBAC\Test\DataProvider\Context;
 use Keestash\Api\AbstractApi;
 use Keestash\Core\DTO\User;
 use Keestash\Core\Permission\PermissionFactory;
@@ -58,6 +59,10 @@ class UpdateUserData extends AbstractApi {
     }
 
     public function onCreate(array $parameters): void {
+<<<<<<< Updated upstream
+        /** @var User|null $user */
+        $user = $this->userManager->getUserById($parameters["user_id"] ?? "");
+=======
         $this->setPermission(
             PermissionFactory::getDefaultPermission()
         );
@@ -81,6 +86,7 @@ class UpdateUserData extends AbstractApi {
         /** @var User $user */
         $user = $this->userManager->getUserById((string) $userId);
 
+>>>>>>> Stashed changes
         if (null === $user) {
             $this->createAndSetResponse(
                 IResponse::RESPONSE_CODE_NOT_OK
@@ -98,6 +104,16 @@ class UpdateUserData extends AbstractApi {
         $user->setWebsite($website);
         $this->user = $user;
 
+<<<<<<< Updated upstream
+    private function preparePermission(IUser $contextUser): IPermission {
+        /** @var IPermission $permission */
+        $permission = $this->permissionManager->getPermission(Application::PERMISSION_UPDATE_PROFILE_IMAGE);
+        $context    = new Context();
+        $context->addUser($contextUser);
+        $permission->setContext($context);
+        return $permission;
+=======
+>>>>>>> Stashed changes
     }
 
     public function create(): void {
@@ -114,6 +130,18 @@ class UpdateUserData extends AbstractApi {
 
     }
 
+<<<<<<< Updated upstream
+    private function valid(): bool {
+        if ("" === trim($this->user->getFirstName())) return false;
+        if ("" === trim($this->user->getLastName())) return false;
+        if (false === $this->userService->validEmail($this->user->getEmail())) return false;
+        if ("" === trim($this->user->getPhone())) return false;
+        if ("" === trim($this->user->getWebsite())) return false;
+        return true;
+    }
+
+=======
+>>>>>>> Stashed changes
     public function afterCreate(): void {
 
     }
