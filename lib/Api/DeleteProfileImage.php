@@ -28,6 +28,7 @@ use Keestash\Api\Response\DefaultResponse;
 use Keestash\Core\DTO\File\File;
 use Keestash\Core\DTO\HTTP;
 use Keestash\Core\Service\File\FileService;
+use Keestash\Core\Service\User\UserService;
 use KSA\Account\Application\Application;
 use KSP\Api\IResponse;
 use KSP\Core\DTO\IToken;
@@ -45,6 +46,7 @@ class DeleteProfileImage extends AbstractApi {
     private $permissionManager = null;
     private $fileManager       = null;
     private $fileService       = null;
+    private $userService       = null;
 
     public function __construct(
         IFileManager $fileManager
@@ -52,6 +54,7 @@ class DeleteProfileImage extends AbstractApi {
         , IL10N $l10n
         , IPermissionRepository $permissionManager
         , FileService $fileService
+        , UserService $userService
         , ?IToken $token = null
     ) {
         parent::__construct($l10n, $token);
@@ -61,7 +64,7 @@ class DeleteProfileImage extends AbstractApi {
         $this->l10n              = $l10n;
         $this->permissionManager = $permissionManager;
         $this->fileService       = $fileService;
-
+        $this->userService       = $userService;
     }
 
     public function onCreate(array $parameters): void {
@@ -70,7 +73,7 @@ class DeleteProfileImage extends AbstractApi {
         $permission = $this->preparePermission($user);
         parent::setPermission($permission);
 
-        if (null === $user) {
+        if (true === $this->userService->isDisabled($user)) {
             $this->prepareResponse(
                 IResponse::RESPONSE_CODE_NOT_OK
                 , "The user is not found"

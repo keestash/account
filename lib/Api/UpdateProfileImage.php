@@ -22,7 +22,6 @@ declare(strict_types=1);
 namespace KSA\Account\Api;
 
 use DateTime;
-use doganoo\PHPUtil\Log\FileLogger;
 use doganoo\SimpleRBAC\Test\DataProvider\Context;
 use Keestash;
 use Keestash\Api\AbstractApi;
@@ -31,11 +30,12 @@ use Keestash\Core\DTO\File\File;
 use Keestash\Core\DTO\HTTP;
 use Keestash\Core\Service\File\FileService;
 use Keestash\Core\Service\File\RawFile\RawFileService;
+use Keestash\Core\Service\User\UserService;
 use KSA\Account\Application\Application;
 use KSA\PasswordManager\Service\Util;
 use KSP\Api\IResponse;
 use KSP\Core\DTO\IToken;
-use KSP\Core\DTO\IUser;
+use KSP\Core\DTO\User\IUser;
 use KSP\Core\Manager\FileManager\IFileManager;
 use KSP\Core\Permission\IPermission;
 use KSP\Core\Repository\Permission\IPermissionRepository;
@@ -54,6 +54,7 @@ class UpdateProfileImage extends AbstractApi {
     private $rawFileService = null;
     private $fileManager    = null;
     private $fileService    = null;
+    private $userService    = null;
 
     public function __construct(
         IL10N $l10n
@@ -62,6 +63,7 @@ class UpdateProfileImage extends AbstractApi {
         , IPermissionRepository $permissionManager
         , RawFileService $rawFileService
         , FileService $fileService
+        , UserService $userService
         , ?IToken $token = null
     ) {
         $this->l10n              = $l10n;
@@ -70,6 +72,7 @@ class UpdateProfileImage extends AbstractApi {
         $this->permissionManager = $permissionManager;
         $this->rawFileService    = $rawFileService;
         $this->fileService       = $fileService;
+        $this->userService       = $userService;
 
         parent::__construct($l10n, $token);
     }
@@ -118,7 +121,7 @@ class UpdateProfileImage extends AbstractApi {
     }
 
     public function create(): void {
-        if (null === $this->user) {
+        if (true === $this->userService->isDisabled($this->user)) {
 
             parent::setResponse(
                 $this->prepareResponse(

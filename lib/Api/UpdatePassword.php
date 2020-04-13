@@ -27,11 +27,11 @@ use Keestash;
 use Keestash\Api\AbstractApi;
 use Keestash\Api\Response\DefaultResponse;
 use Keestash\Core\DTO\HTTP;
-use Keestash\Core\Service\UserService;
+use Keestash\Core\Service\User\UserService;
 use KSA\Account\Application\Application;
 use KSP\Api\IResponse;
 use KSP\Core\DTO\IToken;
-use KSP\Core\DTO\IUser;
+use KSP\Core\DTO\User\IUser;
 use KSP\Core\Permission\IPermission;
 use KSP\Core\Repository\Permission\IPermissionRepository;
 use KSP\Core\Repository\User\IUserRepository;
@@ -96,7 +96,7 @@ class UpdatePassword extends AbstractApi {
     }
 
     public function create(): void {
-        if (null === $this->currentUser) return;
+        if (true === $this->userService->isDisabled($this->currentUser)) return;
         if (false === (new StringClass($this->newPassword))->equals($this->newPasswordRepeat)) return;
         if (false === $this->userService->validatePassword((string) $this->currentPassword, $this->currentUser->getPassword())) return;
         if (false === $this->userService->passwordHasMinimumRequirements((string) $this->newPassword)) return;
