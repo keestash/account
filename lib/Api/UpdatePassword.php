@@ -55,7 +55,7 @@ class UpdatePassword extends AbstractApi {
     private $permissionManager = null;
 
     public function __construct(
-        IUserRepository $userManager
+        IUserRepository $userRepository
         , UserService $userService
         , IL10N $l10n
         , IPermissionRepository $permissionManager
@@ -63,7 +63,7 @@ class UpdatePassword extends AbstractApi {
     ) {
         parent::__construct($l10n, $token);
 
-        $this->userManager       = $userManager;
+        $this->userManager       = $userRepository;
         $this->userService       = $userService;
         $this->permissionManager = $permissionManager;
     }

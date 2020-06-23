@@ -49,7 +49,7 @@ class DeleteProfileImage extends AbstractApi {
     private $userService       = null;
 
     public function __construct(
-        IFileManager $fileManager
+        IFileManager $fileRepository
         , IUserRepository $userManager
         , IL10N $l10n
         , IPermissionRepository $permissionManager
@@ -59,7 +59,7 @@ class DeleteProfileImage extends AbstractApi {
     ) {
         parent::__construct($l10n, $token);
 
-        $this->fileManager       = $fileManager;
+        $this->fileManager       = $fileRepository;
         $this->userManager       = $userManager;
         $this->l10n              = $l10n;
         $this->permissionManager = $permissionManager;
